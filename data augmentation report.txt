@@ -1,0 +1,92 @@
+X_train: (21214, 299, 299, 3) - y_train: (21214,)
+X_val: (2358, 299, 299, 3) - y_val: (2358,)
+X_test: (5894, 299, 299, 3) - y_test: (5894,)
+Shape of inputs: (None, 299, 299, 3)
+Shape of augmented: (None, 128, 128, 3)
+Shape of patches: (None, None, 192)
+Shape of encoded_patches: (None, 256, 64)
+Shape of attention_output: (None, 256, 64)
+Shape of attention_output: (None, 256, 64)
+Shape of mlp output: (None, 1024)
+Shape of logits: (None, 2)
+Model: "model"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input_1 (InputLayer)           [(None, 299, 299, 3  0           []                               
+                                )]                                                                
+                                                                                                  
+ data_augmentation (Sequential)  (None, 128, 128, 3)  7          ['input_1[0][0]']                
+                                                                                                  
+ patches (Patches)              (None, None, 192)    0           ['data_augmentation[0][0]']      
+                                                                                                  
+ patch_encoder (PatchEncoder)   (None, 256, 64)      28736       ['patches[0][0]']                
+                                                                                                  
+ layer_normalization (LayerNorm  (None, 256, 64)     128         ['patch_encoder[0][0]']          
+ alization)                                                                                       
+                                                                                                  
+ multi_head_attention (MultiHea  (None, 256, 64)     16384       ['layer_normalization[0][0]',    
+ dAttention)                                                      'layer_normalization[0][0]']    
+                                                                                                  
+ add (Add)                      (None, 256, 64)      0           ['multi_head_attention[0][0]',   
+                                                                  'patch_encoder[0][0]']          
+                                                                                                  
+ layer_normalization_1 (LayerNo  (None, 256, 64)     128         ['add[0][0]']                    
+ rmalization)                                                                                     
+                                                                                                  
+ dense_1 (Dense)                (None, 256, 128)     8320        ['layer_normalization_1[0][0]']  
+                                                                                                  
+ dropout (Dropout)              (None, 256, 128)     0           ['dense_1[0][0]']                
+                                                                                                  
+ dense_2 (Dense)                (None, 256, 64)      8256        ['dropout[0][0]']                
+                                                                                                  
+ dropout_1 (Dropout)            (None, 256, 64)      0           ['dense_2[0][0]']                
+                                                                                                  
+ add_1 (Add)                    (None, 256, 64)      0           ['dropout_1[0][0]',              
+                                                                  'add[0][0]']                    
+                                                                                                  
+ layer_normalization_2 (LayerNo  (None, 256, 64)     128         ['add_1[0][0]']                  
+ rmalization)                                                                                     
+                                                                                                  
+ multi_head_attention_1 (MultiH  (None, 256, 64)     16384       ['layer_normalization_2[0][0]',  
+ eadAttention)                                                    'layer_normalization_2[0][0]']  
+                                                                                                  
+ add_2 (Add)                    (None, 256, 64)      0           ['multi_head_attention_1[0][0]', 
+                                                                  'add_1[0][0]']                  
+                                                                                                  
+ layer_normalization_3 (LayerNo  (None, 256, 64)     128         ['add_2[0][0]']                  
+ rmalization)                                                                                     
+                                                                                                  
+ dense_3 (Dense)                (None, 256, 128)     8320        ['layer_normalization_3[0][0]']  
+                                                                                                  
+ dropout_2 (Dropout)            (None, 256, 128)     0           ['dense_3[0][0]']                
+                                                                                                  
+ dense_4 (Dense)                (None, 256, 64)      8256        ['dropout_2[0][0]']              
+                                                                                                  
+ dropout_3 (Dropout)            (None, 256, 64)      0           ['dense_4[0][0]']                
+                                                                                                  
+ add_3 (Add)                    (None, 256, 64)      0           ['dropout_3[0][0]',              
+                                                                  'add_2[0][0]']                  
+                                                                                                  
+ layer_normalization_4 (LayerNo  (None, 256, 64)     128         ['add_3[0][0]']                  
+ rmalization)                                                                                     
+                                                                                                  
+ flatten (Flatten)              (None, 16384)        0           ['layer_normalization_4[0][0]']  
+                                                                                                  
+ dropout_4 (Dropout)            (None, 16384)        0           ['flatten[0][0]']                
+                                                                                                  
+ dense_5 (Dense)                (None, 2048)         33556480    ['dropout_4[0][0]']              
+                                                                                                  
+ dropout_5 (Dropout)            (None, 2048)         0           ['dense_5[0][0]']                
+                                                                                                  
+ dense_6 (Dense)                (None, 1024)         2098176     ['dropout_5[0][0]']              
+                                                                                                  
+ dropout_6 (Dropout)            (None, 1024)         0           ['dense_6[0][0]']                
+                                                                                                  
+ dense_7 (Dense)                (None, 2)            2050        ['dropout_6[0][0]']              
+                                                                                                  
+==================================================================================================
+Total params: 35,752,009
+Trainable params: 35,752,002
+Non-trainable params: 7
+__________________________________________________________________________________________________
